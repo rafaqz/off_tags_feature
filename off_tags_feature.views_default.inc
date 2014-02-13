@@ -12,8 +12,8 @@ function off_tags_feature_views_default_views() {
 
   $view = new view();
   $view->name = 'tag_filter';
-  $view->description = '';
-  $view->tag = 'default';
+  $view->description = 'Lists tags for various contexts, with flag links for filtering.';
+  $view->tag = 'Tags Feature';
   $view->base_table = 'taxonomy_term_data';
   $view->human_name = 'Tag Filter';
   $view->core = 7;
