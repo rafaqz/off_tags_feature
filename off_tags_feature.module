@@ -13,18 +13,20 @@ include_once 'off_tags_feature.features.inc';
  */
 function off_tags_feature_init() { 
   // Set tag filter context
-  global $user;
-  $result = db_select('flagging', 'f')
-    ->condition('f.uid', $user->uid, "=")
-    ->condition('f.fid', 8, "=")
-    ->fields("f")
-    ->execute();
-  $fid = array();
-  foreach($result as $row) {
-    $fids[$row->entity_id] = $row->entity_id;
-  }
-  if (!empty($fids)) {
-    context_set('context', 'tag_filter', implode($fids, '+'));
+  if ($flag = flag_get_flag('tag_filter')) { 
+    global $user;
+    $result = db_select('flagging', 'f')
+      ->condition('f.uid', $user->uid, "=")
+      ->condition('f.fid', $flag->fid, "=")
+      ->fields("f")
+      ->execute();
+    $fid = array();
+    foreach($result as $row) {
+      $fids[$row->entity_id] = $row->entity_id;
+    }
+    if (!empty($fids)) {
+      context_set('off_tags_feature', 'tag_filter', implode($fids, '+'));
+    }
   }
 }
 
