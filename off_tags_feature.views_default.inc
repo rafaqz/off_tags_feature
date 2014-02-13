@@ -34,6 +34,14 @@ function off_tags_feature_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'occurances-[tid]';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['label'] = 'No tags available.';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No tags available.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Relationship: Taxonomy term: Content using Tags */
   $handler->display->display_options['relationships']['reverse_tags_node']['id'] = 'reverse_tags_node';
   $handler->display->display_options['relationships']['reverse_tags_node']['table'] = 'taxonomy_term_data';
