@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OFF Tags Feature feature.
+ */
+
+include_once 'off_tags_feature.features.inc';
