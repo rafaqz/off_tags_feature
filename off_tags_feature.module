@@ -5,3 +5,26 @@
  */
 
 include_once 'off_tags_feature.features.inc';
+
+/**
+ * Implements hook_init().
+ * 
+ * Set a tag context for view filtering. 
+ */
+function off_tags_feature_init() { 
+  // Set tag filter context
+  global $user;
+  $result = db_select('flagging', 'f')
+    ->condition('f.uid', $user->uid, "=")
+    ->condition('f.fid', 8, "=")
+    ->fields("f")
+    ->execute();
+  $fid = array();
+  foreach($result as $row) {
+    $fids[$row->entity_id] = $row->entity_id;
+  }
+  if (!empty($fids)) {
+    context_set('context', 'tag_filter', implode($fids, '+'));
+  }
+}
+
