@@ -20,7 +20,7 @@ function off_tags_feature_context_default_contexts() {
     'context' => array(
       'values' => array(
         'integration' => 'integration',
-        'group_group' => 'group_group',
+        '~group_group' => '~group_group',
       ),
     ),
     'context_og_condition_group_type' => array(
@@ -32,7 +32,18 @@ function off_tags_feature_context_default_contexts() {
       ),
     ),
   );
-  $context->reactions = array();
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'views-tag_filter-block' => array(
+          'module' => 'views',
+          'delta' => 'tag_filter-block',
+          'region' => 'sidebar_second',
+          'weight' => '-5',
+        ),
+      ),
+    ),
+  );
   $context->condition_mode = 1;
 
   // Translatables
