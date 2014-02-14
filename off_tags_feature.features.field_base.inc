@@ -10,13 +10,13 @@
 function off_tags_feature_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'tags'
-  $field_bases['tags'] = array(
+  // Exported field_base: 'field_tags'
+  $field_bases['field_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'tags',
+    'field_name' => 'field_tags',
     'foreign keys' => array(
       'tid' => array(
         'columns' => array(
