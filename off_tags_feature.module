@@ -34,8 +34,8 @@ function off_tags_feature_init() {
  * Implements hook_system_info_alter().
  */
 function off_tags_feature_system_info_alter(&$info, $file, $type) {
-  // Commons Topics dynamically adds field_tags to content types that implement
-  // off_tags_feature_field. We must add a corresponding line for each field
+  // We dynamically add field_tags to content types that implement
+  // integration. We must add a corresponding line for each field
   // instance to off_tags_feature.info so that Features is aware of the instance
   // and can sucessfully revert the field_instance component back to its
   // default state.
