@@ -11,7 +11,7 @@ function off_tags_feature_field_default_field_instances() {
   $field_instances = array();
 
   // Get a list of content types that should have the field_topics field added.
-  $entity_types = off_tags_feature_get_entity_types_with_topics();
+  $entity_types = off_tags_feature_get_entity_types_with_tags();
   if (!empty($entity_types)) {
     foreach ($entity_types as $entity_type => $bundles) {
       foreach(array_keys($bundles) as $bundle) {
