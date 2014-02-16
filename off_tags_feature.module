@@ -13,19 +13,36 @@ include_once 'off_tags_feature.features.inc';
  */
 function off_tags_feature_init() { 
   // Set tag filter context
+  $context = context_get();
+  $og_context = og_context();
+  if (empty($context['context']['integration'])) {
+    return;
+  }
   if ($flag = flag_get_flag('tag_filter')) { 
-    global $user;
-    $result = db_select('flagging', 'f')
-      ->condition('f.uid', $user->uid, "=")
-      ->condition('f.fid', $flag->fid, "=")
-      ->fields("f")
-      ->execute();
     $fid = array();
-    foreach($result as $row) {
-      $fids[$row->entity_id] = $row->entity_id;
+    // Use the same view that filters the tags block to filter the tags 
+    // to only include those actually used in the group.
+    if (!empty($og_context)) {
+      $display = 'group_term_reference';
+    }
+    else {
+      $display = 'user_term_reference';
+    }
+
+    if ($view = views_get_view('tag_filter')) {
+      $view->set_display($display);
+      // Remove any pagination.
+      $view->set_items_per_page(0);
+      $view->execute();
+      $response = $view->result;
+    }
+
+    foreach($response as $row) {
+      $fids[$row->tid] = $row->tid;
     }
     if (!empty($fids)) {
-      context_set('off_tags_feature', 'tag_filter', implode($fids, '+'));
+      $fid_string = implode($fids, '+');
+      context_set('off_tags_feature', 'tag_filter', $fid_string);
     }
   }
 }
@@ -46,6 +63,84 @@ function off_tags_feature_system_info_alter(&$info, $file, $type) {
         foreach(array_keys($bundles) as $bundle) {
           $info['features']['field_instance'][] = "$entity_type-$bundle-field_tags";
         }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_features_pipe_alter().
+ */
+function off_tags_feature_features_pipe_alter(&$pipe, $data, $export) {
+  if (!empty($pipe['field_instance'])) {
+    foreach ($pipe['field_instance'] as $delta => $value) {
+      $args = explode('-', $value);
+      $field_name = $args[2];
+      if ($field_name == 'field_tags') {
+        unset($pipe['field_instance'][$delta]);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function off_tags_feature_views_pre_view(&$view, &$display_id, &$args) {
+  // Get all enabled integrations.
+  $integrations = module_invoke_all('collabco_integration');
+  foreach ($integrations as $integration) { 
+    // Check for a matching view name and display id.
+    if (isset($integration['views'][$view->name][$display_id])) { 
+      if (!isset($integration['views'][$view->name][$display_id]['tag_filter']) 
+        || ($integration['views'][$view->name][$display_id]['tag_filter']['disabled'] == FALSE)) {
+          
+        // Get existing arguments for the view.
+        $arguments = $view->display_handler->get_option('arguments');   
+
+        // Set the relationship if specified in the integration.
+        $relationship = 'none';
+        if (isset($integration['views'][$view->name][$display_id]['tag_filter']['relationship'])) {
+          $relationship = $integration['views'][$view->name][$display_id]['tag_filter']['relationship'];
+        }
+
+        // Build the tags argument filter.
+        $arguments['tid']['id'] = 'tid';
+        $arguments['tid']['table'] = 'taxonomy_index';
+        $arguments['tid']['field'] = 'tid';
+        $arguments['tid']['group_type'] = 'group';
+        $arguments['tid']['relationship'] = $relationship;
+        $arguments['tid']['ui_name'] = '';
+        $arguments['tid']['default_action'] = 'default';
+        $arguments['tid']['exception']['value'] = 'all';
+        $arguments['tid']['exception']['title_enable'] = 0;
+        $arguments['tid']['exception']['title'] = 'All';
+        $arguments['tid']['title_enable'] =  0;
+        $arguments['tid']['title'] = '';
+        $arguments['tid']['breadcrumb_enable'] = 0;
+        $arguments['tid']['breadcrumb'] = '';
+        $arguments['tid']['default_argument_type'] = 'context';
+        $arguments['tid']['default_argument_options']['namespace'] = 'off_tags_feature';
+        $arguments['tid']['default_argument_options']['attribute'] = 'tag_filter';
+        $arguments['tid']['default_argument_skip_url'] = 0;
+        $arguments['tid']['summary_options']['base_path'] = '';
+        $arguments['tid']['summary_options']['count'] = '1';
+        $arguments['tid']['summary_options']['items_per_page'] = '25';
+        $arguments['tid']['summary_options']['override'] = 0;
+        $arguments['tid']['summary'] = 3;
+        $arguments['tid']['specify_validation'] = 1;
+        $arguments['tid']['validate']['type'] = 'taxonomy_term';
+        $arguments['tid']['validate']['fail'] = 'ignore';
+        $arguments['tid']['validate_options']['type'] = 'tids';
+        $arguments['tid']['validate_options']['vocabularies'] = array();
+        $arguments['tid']['validate_options']['transform'] =  0;
+        $arguments['tid']['break_phrase'] =  1;
+        $arguments['tid']['add_table'] =  0;
+        $arguments['tid']['require_value'] =  0;
+        $arguments['tid']['reduce_duplicates'] =  1;
+        $arguments['tid']['set_breadcrumb'] =  0;
+
+        $view->display_handler->override_option('arguments', $arguments);
       }
     }
   }
@@ -73,17 +168,3 @@ function off_tags_feature_get_entity_types_with_tags() {
   return $entities;
 }
 
-/**
- * Implements hook_features_pipe_alter().
- */
-function off_tags_feature_features_pipe_alter(&$pipe, $data, $export) {
-  if (!empty($pipe['field_instance'])) {
-    foreach ($pipe['field_instance'] as $delta => $value) {
-      $args = explode('-', $value);
-      $field_name = $args[2];
-      if ($field_name == 'field_tags') {
-        unset($pipe['field_instance'][$delta]);
-      }
-    }
-  }
-}
