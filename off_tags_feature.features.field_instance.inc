@@ -28,7 +28,7 @@ function off_tags_feature_field_default_field_instances() {
 
 function off_tags_feature_field_definition(&$field_instances, $entity_type, $bundle) {
   // Exported field_instance: 'ENTITY_TYPE-BUNDLE-field_topics'
-  $field_instances["$entity_type-$bundle-field_topics"] = array(
+  $field_instances["$entity_type-$bundle-field_tags"] = array(
     'bundle' => $bundle,
     'default_value' => NULL,
     'deleted' => 0,
