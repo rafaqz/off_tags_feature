@@ -23,6 +23,8 @@ function off_tags_feature_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Tags');
+
+  return $field_instances;
 }
 
 
@@ -65,6 +67,4 @@ function off_tags_feature_field_definition(&$field_instances, $entity_type, $bun
       'weight' => 5,
     ),
   );
-
-  return $field_instances;
 }
