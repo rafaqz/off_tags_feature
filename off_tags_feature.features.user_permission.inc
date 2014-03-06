@@ -13,7 +13,10 @@ function off_tags_feature_user_default_permissions() {
   // Exported permission: 'add terms in tags'.
   $permissions['add terms in tags'] = array(
     'name' => 'add terms in tags',
-    'roles' => array(),
+    'roles' => array(
+      'Admin' => 'Admin',
+      'authenticated user' => 'authenticated user',
+    ),
     'module' => 'taxonomy_access_fix',
   );
 
