@@ -46,8 +46,8 @@ function off_tags_feature_field_definition(&$field_instances, $entity_type, $bun
       'teaser' => array(
         'label' => 'inline',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 10,
       ),
     ),
     'entity_type' => $entity_type,
