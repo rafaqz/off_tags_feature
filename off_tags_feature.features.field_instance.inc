@@ -34,7 +34,7 @@ function off_tags_feature_field_definition(&$field_instances, $entity_type, $bun
     'bundle' => $bundle,
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Categorise content',
     'display' => array(
       'default' => array(
         'label' => 'inline',
