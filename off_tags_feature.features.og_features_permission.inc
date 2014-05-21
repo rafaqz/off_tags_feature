@@ -10,13 +10,13 @@
 function off_tags_feature_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:closed_group:update field_tags field'
-  $permissions['node:closed_group:update field_tags field'] = array(
+  // Exported og permission: 'node:private_group:update field_tags field'
+  $permissions['node:private_group:update field_tags field'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:closed_group:view field_tags field'
-  $permissions['node:closed_group:view field_tags field'] = array(
+  // Exported og permission: 'node:private_group:view field_tags field'
+  $permissions['node:private_group:view field_tags field'] = array(
     'roles' => array(),
   );
 
