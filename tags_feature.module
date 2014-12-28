@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the OFF Tags Feature feature.
+ * Code for the Tags Feature.
  */
 
 include_once 'tags_feature.features.inc';
