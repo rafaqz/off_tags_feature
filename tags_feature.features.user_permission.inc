@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * off_tags_feature.features.user_permission.inc
+ * tags_feature.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function off_tags_feature_user_default_permissions() {
+function tags_feature_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'add terms in tags'.

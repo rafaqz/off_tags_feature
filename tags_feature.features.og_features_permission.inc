@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * off_tags_feature.features.og_features_permission.inc
+ * tags_feature.features.og_features_permission.inc
  */
 
 /**
  * Implements hook_og_features_default_permissions().
  */
-function off_tags_feature_og_features_default_permissions() {
+function tags_feature_og_features_default_permissions() {
   $permissions = array();
 
   // Exported og permission: 'node:private_group:update field_tags field'

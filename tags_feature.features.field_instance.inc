@@ -1,21 +1,21 @@
 <?php
 /**
  * @file
- * off_tags_feature.features.field_instance.inc
+ * tags_feature.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function off_tags_feature_field_default_field_instances() {
+function tags_feature_field_default_field_instances() {
   $field_instances = array();
 
   // Get a list of content types that should have the field_topics field added.
-  $entity_types = off_tags_feature_get_entity_types_with_tags();
+  $entity_types = tags_feature_get_entity_types_with_tags();
   if (!empty($entity_types)) {
     foreach ($entity_types as $entity_type => $bundles) {
       foreach(array_keys($bundles) as $bundle) {
-        off_tags_feature_field_definition($field_instances, $entity_type, $bundle);
+        tags_feature_field_definition($field_instances, $entity_type, $bundle);
       }
     }
   }
@@ -28,7 +28,7 @@ function off_tags_feature_field_default_field_instances() {
 }
 
 
-function off_tags_feature_field_definition(&$field_instances, $entity_type, $bundle) {
+function tags_feature_field_definition(&$field_instances, $entity_type, $bundle) {
   // Exported field_instance: 'ENTITY_TYPE-BUNDLE-field_tags'
   $field_instances["$entity_type-$bundle-field_tags"] = array(
     'bundle' => $bundle,

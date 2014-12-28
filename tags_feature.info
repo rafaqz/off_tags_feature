@@ -27,5 +27,5 @@ features[user_permission][] = add terms in tags
 features[user_permission][] = delete terms in tags
 features[user_permission][] = edit terms in tags
 features[variable][] = pathauto_taxonomy_term_tags_pattern
-features_exclude[dependencies][collabco_groups_feature] = collabco_groups_feature
+features_exclude[dependencies][groups_feature] = groups_feature
 project path = sites/all/modules/features

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * off_tags_feature.features.inc
+ * tags_feature.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function off_tags_feature_ctools_plugin_api($module = NULL, $api = NULL) {
+function tags_feature_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -16,6 +16,6 @@ function off_tags_feature_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_views_api().
  */
-function off_tags_feature_views_api($module = NULL, $api = NULL) {
+function tags_feature_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }

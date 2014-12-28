@@ -4,19 +4,19 @@
  * Code for the OFF Tags Feature feature.
  */
 
-include_once 'off_tags_feature.features.inc';
+include_once 'tags_feature.features.inc';
 
 /**
  * Implements hook_system_info_alter().
  */
-function off_tags_feature_system_info_alter(&$info, $file, $type) {
+function tags_feature_system_info_alter(&$info, $file, $type) {
   // We dynamically add field_tags to content types that implement
   // integration. We must add a corresponding line for each field
-  // instance to off_tags_feature.info so that Features is aware of the instance
+  // instance to tags_feature.info so that Features is aware of the instance
   // and can sucessfully revert the field_instance component back to its
   // default state.
-  if ($file->name == 'off_tags_feature') {
-    $entity_types = off_tags_feature_get_entity_types_with_tags();
+  if ($file->name == 'tags_feature') {
+    $entity_types = tags_feature_get_entity_types_with_tags();
     if (!empty($entity_types)) {
       foreach ($entity_types as $entity_type => $bundles) {
         foreach(array_keys($bundles) as $bundle) {
@@ -30,7 +30,7 @@ function off_tags_feature_system_info_alter(&$info, $file, $type) {
 /**
  * Implements hook_features_pipe_alter().
  */
-function off_tags_feature_features_pipe_alter(&$pipe, $data, $export) {
+function tags_feature_features_pipe_alter(&$pipe, $data, $export) {
   if (!empty($pipe['field_instance'])) {
     foreach ($pipe['field_instance'] as $delta => $value) {
       $args = explode('-', $value);
@@ -45,9 +45,9 @@ function off_tags_feature_features_pipe_alter(&$pipe, $data, $export) {
 /**
  * Returns an array of entity types with tag fields enabled via collabco integration.
  */
-function off_tags_feature_get_entity_types_with_tags() {
+function tags_feature_get_entity_types_with_tags() {
   // Find all Commons Entity integrations.
-  $integrations = module_invoke_all('collabco_integration');
+  $integrations = module_invoke_all('integration');
   $entities = array();
   foreach ($integrations as $integration) { 
     if (empty($integration['entity']['node'])) {

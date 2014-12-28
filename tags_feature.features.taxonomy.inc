@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * off_tags_feature.features.taxonomy.inc
+ * tags_feature.features.taxonomy.inc
  */
 
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function off_tags_feature_taxonomy_default_vocabularies() {
+function tags_feature_taxonomy_default_vocabularies() {
   return array(
     'tags' => array(
       'name' => 'Tags',
